@@ -12,18 +12,16 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import arduino.service.SerialService
 import jssc.SerialPortEvent
 import jssc.SerialPortEventListener
-import arduino.service.EventManager
-import arduino.service.ArduinoAction
 import java.util.Date
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 case class PlantCommand(@JsonProperty("name") name:String)
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-case class PlantCommandResponse(@BeanProperty  response:String)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//case class PlantCommandResponse(@BeanProperty  response:String)
 
 @Controller
-class WebSocketControllerImpl  @Autowired() (serialService:SerialService,em:EventManager) {
+class WebSocketControllerImpl  @Autowired() (serialService:SerialService) {
   
   @MessageMapping(Array("/hello"))
   @SendTo(Array("/topic/greetings"))
@@ -40,8 +38,10 @@ class WebSocketControllerImpl  @Autowired() (serialService:SerialService,em:Even
     println ("Will consume  string")
       
     //em.save(new ArduinoAction("testing", new Date))
-        
-	return new PlantCommandResponse(serialService.consumeString)
+    //serialService.consumeString    
+    
+    
+	return new PlantCommandResponse("lalala")
 	  //	return "testing"
   }
  

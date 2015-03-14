@@ -22,13 +22,13 @@ class SerialTester extends FunSuite{
     println("I can see this in the console")
     
     val serialService = new SerialService("/dev/ttyACM0", 9600)
-    serialService.addListener
+   // serialService.addListener
     
     Thread sleep 1000
     serialService.send("R")
     Thread sleep 4000
     println("awake")
-    println(serialService.consumeString)
+    //println(serialService.consumeString)
     //println(serialService.consumeString)
     
   }
