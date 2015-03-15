@@ -23,7 +23,61 @@ import java.io.InputStreamReader;
 
 
 public class Dashboard extends FragmentActivity {
+    public void btnPourWater(View view) {
+        EditText txtServerAddress = (EditText) findViewById(R.id.txtServerIp);
+        EditText txtPlant= (EditText) findViewById(R.id.txtPlant);
 
+        new ReadTomateResponseTask().execute(
+                "http://" + txtServerAddress.getEditableText().toString() + ":8080/test/api/v1/poor/" +
+                        txtPlant.getEditableText().toString());
+    }
+    public String readJSONFeed(String URL) {
+        StringBuilder stringBuilder = new StringBuilder();
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(URL);
+        try {
+            HttpResponse response = httpClient.execute(httpGet);
+            StatusLine statusLine = response.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+            if (statusCode == 200) {
+                HttpEntity entity = response.getEntity();
+                InputStream inputStream = entity.getContent();
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                inputStream.close();
+            } else {
+                Log.d("JSON", "Failed to download file");
+            }
+        } catch (Exception e) {
+            Log.d("readJSONFeed", e.getLocalizedMessage());
+        }
+        return stringBuilder.toString();
+    }
+
+    private class ReadTomateResponseTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            return readJSONFeed(urls[0]);
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+
+                /*JSONObject response =
+                        new JSONObject(jsonObject.getString("weatherObservation"));
+*/
+                Toast.makeText(getBaseContext(), jsonObject.getString("response").equals("Ok") ? "Pouring water went ok" : "something went wrong. check state",
+                        Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+                Log.d("ReadTomateResponseTask", e.getLocalizedMessage());
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

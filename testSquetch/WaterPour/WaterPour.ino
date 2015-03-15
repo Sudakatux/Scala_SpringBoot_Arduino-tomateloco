@@ -26,7 +26,7 @@ void setup(){
 
   digitalWrite(releOnPin, LOW);
   
-  moveToPosition(0);
+  moveToPosition(90);
 
 }
 /* Actions */
@@ -96,10 +96,10 @@ int strToInt(char AStr[], byte ALen)
 
 void moveToOriginalPostion(int lastPosition){
 
-  for(pos=lastPosition; pos!=0; pos-=1)     // goes from 180 degrees to 0 degrees 
+  for(pos=lastPosition; pos!=90; pos-=1)     // goes from 180 degrees to 0 degrees 
       {                                
         myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-        delay(50);                       // waits 15ms for the servo to reach the position 
+        delay(30);                       // waits 15ms for the servo to reach the position 
       }
       pos=0;
 
@@ -110,9 +110,9 @@ void moveToPosition(int desiredPosition){
 
   if(pos==0){
     
-    for(pos = 0; pos!=desiredPosition; pos+=1){
+    for(pos = 90; pos!=desiredPosition; pos+=1){
         myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-        delay(50);
+        delay(30);
     }
     
    
@@ -172,18 +172,17 @@ void eventPublisher(int distance){
 
 }
 
-
+/**
+Reads firstByte wich identify witch sensor or motor should we use
+Specific sensor messages are read in specific sensor
+*/
 void readIncomingMessage(){
   if(Serial.available()>0){
     
     char firstByte =Serial.read(); 
      switch(firstByte){
        case 'R':
-         //Serial.println("R:");
-         //Serial.println(segundosDeRego);
-         //Serial.println("s\n");
          regarAction();
-         //Serial.println("R:F\n");
          break;
        case 'D':
          Serial.println("D:");
