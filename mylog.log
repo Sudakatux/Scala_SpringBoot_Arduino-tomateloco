@@ -1,86 +1,0 @@
-[INFO] Scanning for projects...
-Downloading: http://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-surefire-plugin/2.17/maven-surefire-plugin-2.17.pom
-3/5 KB   5/5 KB            Downloaded: http://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-surefire-plugin/2.17/maven-surefire-plugin-2.17.pom (5 KB at 4.2 KB/sec)
-Downloading: http://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire/2.17/surefire-2.17.pom
-4/17 KB   8/17 KB   12/17 KB   14/17 KB   17/17 KB   17/17 KB              Downloaded: http://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire/2.17/surefire-2.17.pom (17 KB at 32.9 KB/sec)
-[INFO] 
-[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1
-[INFO]                                                                         
-[INFO] ------------------------------------------------------------------------
-[INFO] Building arduino 0.0.1-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[INFO] 
-[INFO] >>> spring-boot-maven-plugin:1.2.1.RELEASE:run (default-cli) @ arduino >>>
-[INFO] 
-[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ arduino ---
-[debug] execute contextualize
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] Copying 0 resource
-[INFO] Copying 6 resources
-[INFO] 
-[INFO] --- scala-maven-plugin:3.1.5:compile (compile) @ arduino ---
-[WARNING]  Expected all dependencies to require Scala version: 2.10.2
-[WARNING]  org.tomateloco:arduino:0.0.1-SNAPSHOT requires scala version: 2.10.2
-[WARNING]  org.mongodb:casbah-commons_2.10:2.5.0 requires scala version: 2.10.0
-[WARNING] Multiple versions of scala libraries detected!
-[INFO] /home/jimmy/Scala/taplan/taplan/src/main/scala:-1: info: compiling
-[INFO] Compiling 10 source files to /home/jimmy/Scala/taplan/taplan/target/classes at 1425245177661
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/config/MongoDbConfig.scala:4: error: object data is not a member of package org.springframework
-[ERROR] import org.springframework.data.mongodb.config.AbstractMongoConfiguration
-[ERROR]                            ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/config/MongoDbConfig.scala:9: error: not found: type AbstractMongoConfiguration
-[ERROR] class MongoDbConfig extends AbstractMongoConfiguration{
-[ERROR]                             ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/controller/TestController.scala:9: error: object data is not a member of package org.springframework
-[ERROR] import org.springframework.data.mongodb.core.MongoOperations
-[ERROR]                            ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/controller/TestController.scala:14: error: not found: type MongoOperations
-[ERROR] class TestController @Autowired() (serialService:SerialService,mongoOperations:MongoOperations) {
-[ERROR]                                                                                ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/EventManager.scala:4: error: object data is not a member of package org.springframework
-[ERROR] import org.springframework.data.mongodb.repository.MongoRepository
-[ERROR]                            ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/EventManager.scala:11: error: not found: type MongoRepository
-[ERROR] trait ArduinoActionRepository extends MongoRepository[ArduinoAction,String]
-[ERROR]                                       ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/EventManager.scala:17: error: value save is not a member of arduino.service.ArduinoActionRepository
-[ERROR]     actionRepository.save(action)
-[ERROR]                      ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala:53: error: could not find implicit value for parameter ctx: com.novus.salat.Context
-[ERROR] object ArduinoIncomingEventDao extends SalatDAO[ArduinoIncomingEvent,Int](collection = MongoConnection()("arduino")("events"))
-[ERROR]                                ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala:60: error: not found: type MongoOperations
-[ERROR]     this(port, new AnnotationConfigApplicationContext(classOf[MongoDbConfig]).getBean("mongoTemplate").asInstanceOf[MongoOperations])
-[ERROR]                                                                                                                     ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala:60: error: overloaded method constructor ArduinoListenerService with alternatives:
-[ERROR]   (port: jssc.SerialPort)arduino.service.ArduinoListenerService <and>
-[ERROR]   (port: jssc.SerialPort)arduino.service.ArduinoListenerService
-[ERROR]  cannot be applied to (jssc.SerialPort, <error>)
-[INFO]     this(port, new AnnotationConfigApplicationContext(classOf[MongoDbConfig]).getBean("mongoTemplate").asInstanceOf[MongoOperations])
-[INFO]     ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala:72: error: not enough arguments for method apply: (id: Int, date: java.util.Date, component: String, message: String)arduino.service.ArduinoIncomingEvent in object ArduinoIncomingEvent.
-[ERROR] Unspecified value parameter message.
-[ERROR]     val event = ArduinoIncomingEvent(new Date, incomingEvent(0), incomingEvent(1))
-[ERROR]                                     ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala:76: error: not found: value mongoOperations
-[ERROR]     mongoOperations.save(event, "incommingevents")
-[ERROR]     ^
-[ERROR] /home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala:58: error: constructor ArduinoListenerService is defined twice
-[ERROR]   conflicting symbols both originated in file '/home/jimmy/Scala/taplan/taplan/src/main/scala/arduino/service/SerialService.scala'
-[ERROR]   def this(port: SerialPort) = {
-[ERROR]       ^
-[ERROR] 13 errors found
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 6.834 s
-[INFO] Finished at: 2015-03-01T18:26:20-03:00
-[INFO] Final Memory: 16M/217M
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal net.alchim31.maven:scala-maven-plugin:3.1.5:compile (compile) on project arduino: wrap: org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1) -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
