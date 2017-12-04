@@ -111,12 +111,26 @@
 			<artifactId>casbah-core_2.10</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-
+		<!-- Not using this -->
 		<dependency>
 			<groupId>com.novus</groupId>
 			<artifactId>salat-core_2.10</artifactId>
 			<version>1.9.2</version>
 		</dependency>
+		<!-- end not using this -->
+
+		<dependency>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-actor_2.10</artifactId>
+			<version>2.3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.scala</groupId>
+			<artifactId>spring-scala_2.10</artifactId>
+			<version>1.0.0.RC1</version>
+		</dependency>
+
 
 
 
@@ -175,6 +189,11 @@
 			<id>mesosphere-public-repo</id>
 			<name>Mesosphere Public Repo</name>
 			<url>http://downloads.mesosphere.io/maven</url>
+		</repository>
+
+		<repository>
+			<id>spring-milestones</id>
+			<url>http://repo.springsource.org/libs-milestone/</url>
 		</repository>
 
 		<repository>

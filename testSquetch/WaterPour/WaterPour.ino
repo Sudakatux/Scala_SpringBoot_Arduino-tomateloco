@@ -20,7 +20,8 @@ int trigerPin=8;
 void setup(){
   myservo.attach(6);
   Serial.begin(9600);
-  
+   pinMode(trigerPin, OUTPUT);
+    pinMode(echoPin, INPUT);
   
   pinMode(releOnPin,OUTPUT);
 
@@ -40,10 +41,11 @@ void regarAction(){
     int plantPos=Serial.parseInt();
     
     moveToPosition(plantPos);
-    Serial.print("Wate:");
+    //Serial.print("Wate:");
+     char eventName[7]="<WATE:";
     char buf[5];
-    sprintf(buf,"%05d",plantPos);
-    Serial.println(buf);
+    sprintf(buf,"%s%05d>",eventName,plantPos);
+    Serial.print(buf);
     
     //Poor water
     digitalWrite(releOnPin, HIGH);
@@ -62,16 +64,6 @@ void regarAction(){
   }
   
   
-  
-  
-  
-  
-   // if(Serial.available()>0){
-     // readLen = Serial.readBytes(buffer, readLen);
-     // plantPos=strToInt(buffer, readLen);
-      
-          
-   // }
 
 }
 
@@ -137,13 +129,15 @@ int distancePooler(){
   int distance;
   int time;
   
-  digitalWrite(echoPin,LOW); /* Por cuestión de estabilización del sensor*/
-  delayMicroseconds(5);
   
-  digitalWrite(echoPin, HIGH); /* envío del pulso ultrasónico*/
+  digitalWrite(trigerPin,LOW); /* Por cuestión de estabilización del sensor*/
+  delayMicroseconds(3);
+  
+  digitalWrite(trigerPin, HIGH); /* envío del pulso ultrasónico*/
   delayMicroseconds(10);
+  digitalWrite(trigerPin, LOW);
   
-  time=pulseIn(trigerPin, HIGH); 
+  time=pulseIn(echoPin, HIGH); 
   
   /* Función para medir la longitud del pulso entrante. Mide el tiempo que transcurrido entre el envío
   del pulso ultrasónico y cuando el sensor recibe el rebote, es decir: desde que el pin 12 empieza a recibir el rebote, HIGH, hasta que
@@ -166,9 +160,15 @@ int distancePooler(){
 
 void eventPublisher(int distance){
   
-  Serial.println("DI:");
-  Serial.println(distance);
-  Serial.print("\n");
+  //Serial.print("DIST:");
+  char eventName[7]="<DIST:";
+ 
+  char buf[5];
+  
+  sprintf(buf,"%s%05d>",eventName,distance);
+  
+  Serial.print(buf);
+//  Serial.print("\n");
 
 }
 
@@ -177,6 +177,12 @@ Reads firstByte wich identify witch sensor or motor should we use
 Specific sensor messages are read in specific sensor
 */
 void readIncomingMessage(){
+  int distance=0;
+  
+  // distance = distancePooler();
+         //eventPublisher(distance);
+ //Serial.println(distance);
+ 
   if(Serial.available()>0){
     
     char firstByte =Serial.read(); 
@@ -184,10 +190,15 @@ void readIncomingMessage(){
        case 'R':
          regarAction();
          break;
-       case 'D':
-         Serial.println("D:");
-         Serial.println(distancePooler());
-         Serial.println("cm\n");
+       //case 'D':
+         //Serial.println("D:");
+         //Serial.println(distancePooler());
+         //Serial.println("cm\n");
+         //break;
+       case 'H':
+         distance = distancePooler();
+         eventPublisher(distance);
+         Serial.flush();
          break;
        default:
          Serial.print("E:Unknown Module\n");

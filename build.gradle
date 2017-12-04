@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+	    maven { url "http://repo.spring.io/snapshot" }
+	    maven { url "http://repo.spring.io/milestone" }
+	    maven { url "http://repo.spring.io/release" }
+	    mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'spring-boot-scala-web'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "http://repo.spring.io/release" }
+    maven { url "https://oss.sonatype.org/content/repositories/releases"}
+    maven { url "http://downloads.mesosphere.io/maven" }
+ }
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework:spring-messaging")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    compile("org.mongodb:casbah-core_2.10:2.5.0")
+
+    compile("com.typesafe.akka:akka-actor_2.10:2.3.9")
+
+    compile("org.scream3r:jssc:2.8.0")
+    compile("org.springframework.boot:spring-boot-starter-tomcat")
+    compile("org.scala-lang:scala-library:2.10.2")
+    compile("org.webjars:bootstrap:3.1.1")
+    testCompile("junit:junit")
+
+    testCompile("org.scalatest:scalatest_2.10:2.2.4")
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
